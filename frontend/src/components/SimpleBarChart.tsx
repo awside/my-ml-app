@@ -15,15 +15,9 @@ type DataPoint = {
   value: number
 }
 
-const data: DataPoint[] = [
-  { name: 'Group A', value: 12 },
-  { name: 'Group B', value: 18 },
-  { name: 'Group C', value: 5 },
-]
-
-const SimpleBarChart: React.FC = () => {
+const SimpleBarChart: React.FC<{ data: DataPoint[] }> = ({ data }) => {
   return (
-    <div style={{ width: '100%', height: 300 }}>
+    <div className="w-full h-60 md:h-80 lg:h-96">
       <ResponsiveContainer>
         <BarChart data={data}>
           <CartesianGrid strokeDasharray="3 3" />

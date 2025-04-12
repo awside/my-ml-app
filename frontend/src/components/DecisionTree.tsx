@@ -1,42 +1,16 @@
-// src/components/DecisionTree.tsx
-import { useRef, useState, useEffect } from 'react'
-import Tree from 'react-d3-tree'
+import { ResponsiveTree } from '@nivo/tree'
 
-type TreeNode = {
+export type TreeNode = {
+  id: string
   name: string
+  color: string
   children?: TreeNode[]
+  loc?: number // required by Nivo tree leaves
 }
 
-interface DecisionTreeProps {
-  data: TreeNode
-}
-
-export default function DecisionTree({ data }: DecisionTreeProps) {
-  const treeContainer = useRef<HTMLDivElement>(null)
-  const [dimensions, setDimensions] = useState({ width: 800, height: 600 })
-
-  useEffect(() => {
-    if (treeContainer.current) {
-      const { offsetWidth, offsetHeight } = treeContainer.current
-      setDimensions({ width: offsetWidth, height: offsetHeight })
-    }
-  }, [])
-
-  return (
-    <div ref={treeContainer} style={{ width: '100%', height: '600px' }}>
-      <Tree
-        data={data}
-        translate={{ x: dimensions.width / 2, y: 50 }}
-        orientation="vertical"
-        pathFunc="diagonal"
-        separation={{ siblings: 1, nonSiblings: 2 }}
-        zoomable
-        zoom={0.7}
-        collapsible
-        nodeSize={{ x: 200, y: 100 }}
-      />
-    </div>
-  )
+function getRandomColor(): string {
+  const hue = Math.floor(Math.random() * 360)
+  return `hsl(${hue}, 70%, 50%)`
 }
 
 export function generateBinaryTree(
@@ -44,8 +18,11 @@ export function generateBinaryTree(
   prefix = 'Node',
   currentLevel = 1
 ): TreeNode {
+  const id = `${prefix}-${currentLevel}`
   const node: TreeNode = {
-    name: `${prefix}-${currentLevel}`,
+    id,
+    name: id,
+    color: getRandomColor(),
   }
 
   if (currentLevel < levels) {
@@ -53,7 +30,41 @@ export function generateBinaryTree(
       generateBinaryTree(levels, `${prefix}L`, currentLevel + 1),
       generateBinaryTree(levels, `${prefix}R`, currentLevel + 1),
     ]
+  } else {
+    node.loc = 0 // leaf node value
   }
 
   return node
+}
+
+export default function DecisionTree({ data }: { data: TreeNode }) {
+  return (
+    <div style={{ height: 600 }}>
+      <ResponsiveTree
+        data={data}
+        identity="name"
+        nodeColor={(node) => (node.data as TreeNode).color}
+        activeNodeSize={24}
+        inactiveNodeSize={12}
+        fixNodeColorAtDepth={2}
+        linkThickness={6}
+        activeLinkThickness={8}
+        inactiveLinkThickness={2}
+        linkColor={{
+          from: 'target.color',
+          modifiers: [['opacity', 0.4]],
+        }}
+        margin={{ top: 90, right: 90, bottom: 90, left: 90 }}
+        motionConfig="stiff"
+        meshDetectionRadius={80}
+        label={(d) => (d.data as TreeNode).name}
+        linkTooltip={() => null}
+        onLinkMouseEnter={() => {}}
+        onLinkMouseMove={() => {}}
+        onLinkMouseLeave={() => {}}
+        onLinkClick={() => {}}
+        linkTooltipAnchor="top"
+      />
+    </div>
+  )
 }

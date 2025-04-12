@@ -1,13 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import eda  # import your eda router
+from app.api import eda
 
-app = FastAPI(
-    title="ML EDA Backend",
-    version="0.1.0",
-    description="API for exploratory data analysis on uploaded datasets.",
-)
+app = FastAPI()
 
 # Allow frontend dev from anywhere (adjust for production)
 app.add_middleware(
@@ -20,3 +16,4 @@ app.add_middleware(
 
 # Include the EDA API router
 app.include_router(eda.router, prefix="/eda", tags=["EDA"])
+

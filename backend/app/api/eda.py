@@ -3,11 +3,14 @@ from app.df_store.static_df import get_static_df
 
 router = APIRouter()
 
-@router.get("/test-df-load")
-def test_df_load():
+
+@router.get("/columns")
+async def get_column_names():
     df = get_static_df()
-    return {
-        "status": "success",
-        "rows": len(df),
-        "columns": list(df.columns)
-    }
+    return {"columns": list(df.columns)}
+
+
+@router.get("/numerical-columns")
+def get_numerical_column_names():
+    df = get_static_df()
+    return {"numerical_columns": get_numerical_column_names(df)}

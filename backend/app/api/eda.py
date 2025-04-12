@@ -1,19 +1,13 @@
-from fastapi import APIRouter, UploadFile, File
-from app.services.eda_service import get_numerical_columns
-
-import pandas as pd
-import io
+from fastapi import APIRouter
+from app.df_store.static_df import get_static_df
 
 router = APIRouter()
 
-
-@router.post("/get-numerical-columns")
-async def numerical_columns(file: UploadFile = File(...)):
-    # Read uploaded file into pandas DataFrame
-    contents = await file.read()
-    df = pd.read_csv(io.BytesIO(contents))
-
-    # Use service function to get numerical columns
-    numerical_cols = get_numerical_columns(df)
-
-    return {"numerical_columns": numerical_cols}
+@router.get("/test-df-load")
+def test_df_load():
+    df = get_static_df()
+    return {
+        "status": "success",
+        "rows": len(df),
+        "columns": list(df.columns)
+    }

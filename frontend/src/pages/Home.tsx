@@ -1,4 +1,4 @@
-import { ColumnList } from '../components/ui/ColumnList'
+import { ColumnList } from '../components/eda/ColumnList'
 
 export default function Home() {
   return (

@@ -10,7 +10,7 @@ export default function Header() {
         </Link>
 
         <nav className="space-x-4 text-sm sm:text-base font-medium">
-          {['Home', 'Projects', 'Tools', 'Resume', 'Contact'].map((label) => {
+          {['Home', 'EDA', 'ML', 'Resume', 'Contact'].map((label) => {
             const to = label === 'Home' ? '/' : `/${label.toLowerCase()}`
             return (
               <NavLink

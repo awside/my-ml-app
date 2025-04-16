@@ -1,20 +1,22 @@
 import { useFetch } from '../hooks/useFetch'
 
+type Column_Categories = {
+  name: string
+  type: string
+}
+
 export const ColumnList = () => {
-  const { data } = useFetch('http://localhost:8000/eda/columns')
+  const { data } = useFetch<Column_Categories[]>(
+    'http://localhost:8000/eda/column-categories'
+  )
 
   return (
-    <div className="rounded-2xl shadow-lg bg-white p-6 border border-gray-200">
-      <h2 className="text-xl font-semibold text-gray-800 mb-4">
-        Available Columns
-      </h2>
-      <ul className="flex flex-wrap gap-3">
-        {data?.columns?.map((col: string) => (
-          <li
-            key={col}
-            className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full border border-gray-300"
-          >
-            {col}
+    <div className="p-6 bg-white shadow border border-base-200 rounded-lg">
+      <h2 className="text-xl font-semibold mb-4">Column Categories</h2>
+      <ul className="space-y-2">
+        {data?.map((col) => (
+          <li key={col.name} className="pb-2">
+            <strong>{col.name}</strong>: {col.type}
           </li>
         ))}
       </ul>

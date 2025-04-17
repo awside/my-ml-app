@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import FactorSelector from './FactorSelector'
-import GraphDisplay from './GraphDisplay' // hypothetical graph
 
 const EDALayout = () => {
   const [selectedColumns, setSelectedColumns] = useState<Set<string>>(new Set())
@@ -11,7 +10,6 @@ const EDALayout = () => {
         selected={selectedColumns}
         setSelected={setSelectedColumns}
       />
-      <GraphDisplay columns={[...selectedColumns]} />
     </div>
   )
 }

@@ -42,7 +42,6 @@ const FactorSelector: React.FC<FactorSelectorProps> = ({
               name={col.name}
               isSelected={selected.has(col.name)}
               onToggle={() => toggle(col.name)}
-              color="blue"
             />
           ))}
         </ul>
@@ -58,7 +57,6 @@ const FactorSelector: React.FC<FactorSelectorProps> = ({
               name={col.name}
               isSelected={selected.has(col.name)}
               onToggle={() => toggle(col.name)}
-              color="blue"
             />
           ))}
         </ul>

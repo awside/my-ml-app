@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 
-export const useFetch = <T = any>(url: string) => {
+const useFetch = <T = any>(url: string) => {
   const [data, setData] = useState<T | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<any>(null)
 
   useEffect(() => {
-    fetch(url)
+    fetch('http://localhost:8000'+url)
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP error! ${res.status}`)
         return res.json()
@@ -18,3 +18,5 @@ export const useFetch = <T = any>(url: string) => {
 
   return { data, loading, error }
 }
+
+export default useFetch

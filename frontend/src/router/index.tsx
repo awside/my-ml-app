@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom'
+import { createBrowserRouter } from 'react-router-dom'
 import Home from '../pages/Home'
 import EDA from '../pages/EDA'
 import ML from '../pages/ML'
@@ -11,7 +11,7 @@ export const router = createBrowserRouter([
     path: '/',
     element: <Layout />,
     children: [
-      { index: true, element: <Navigate to="/eda" replace /> },
+      { index: true, element: <Home /> },
       { path: 'home', element: <Home /> },
       { path: 'eda', element: <EDA /> },
       { path: 'ml', element: <ML /> },

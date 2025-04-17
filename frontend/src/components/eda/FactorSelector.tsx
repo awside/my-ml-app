@@ -1,4 +1,4 @@
-import { useFetch } from '../services/useFetch'
+import useFetch from '../services/useFetch'
 import ToggleBox from './ToggleBox' // import it
 
 const FactorSelector: React.FC<{
@@ -10,7 +10,7 @@ const FactorSelector: React.FC<{
       name: string
       type: 'numerical' | 'categorical' | 'date'
     }[]
-  >('http://localhost:8000/eda/column-categories')
+  >('/eda/column-categories')
 
   const toggle = (name: string) => {
     setSelected((prev) => {
@@ -24,7 +24,7 @@ const FactorSelector: React.FC<{
   const categorical = data?.filter((d) => d.type === 'categorical') ?? []
 
   return (
-    <div className="grid grid-cols-2 gap-8">
+    <div className="grid grid-cols-2 gap-8 border rounded shadow-md p-6">
       {/* Numerical */}
       <div>
         <h2 className="text-lg font-bold mb-2">Numerical</h2>

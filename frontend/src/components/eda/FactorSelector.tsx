@@ -1,23 +1,16 @@
 import { useFetch } from '../services/useFetch'
 import ToggleBox from './ToggleBox' // import it
 
-type ColumnMeta = {
-  name: string
-  type: 'numerical' | 'categorical' | 'date'
-}
-
-type FactorSelectorProps = {
+const FactorSelector: React.FC<{
   selected: Set<string>
   setSelected: React.Dispatch<React.SetStateAction<Set<string>>>
-}
-
-const FactorSelector: React.FC<FactorSelectorProps> = ({
-  selected,
-  setSelected,
-}) => {
-  const { data } = useFetch<ColumnMeta[]>(
-    'http://localhost:8000/eda/column-categories'
-  )
+}> = ({ selected, setSelected }) => {
+  const { data } = useFetch<
+    {
+      name: string
+      type: 'numerical' | 'categorical' | 'date'
+    }[]
+  >('http://localhost:8000/eda/column-categories')
 
   const toggle = (name: string) => {
     setSelected((prev) => {

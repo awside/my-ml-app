@@ -1,3 +1,5 @@
+import EDALayout from '../components/eda/EDALayout'
+
 export default function EDA() {
-  return <div className="p-4 text-xl">EDA</div>
+  return <EDALayout />
 }

@@ -2,9 +2,16 @@ import useFetch from '../services/useFetch'
 import ToggleBox from './ToggleBox' // import it
 
 const FactorSelector: React.FC<{
-  selected: Set<string>
-  setSelected: React.Dispatch<React.SetStateAction<Set<string>>>
-}> = ({ selected, setSelected }) => {
+  selectedNumerical: Set<string>
+  setSelectedNumerical: React.Dispatch<React.SetStateAction<Set<string>>>
+  selectedCategorical: Set<string>
+  setSelectedCategorical: React.Dispatch<React.SetStateAction<Set<string>>>
+}> = ({
+  selectedNumerical,
+  setSelectedNumerical,
+  selectedCategorical,
+  setSelectedCategorical,
+}) => {
   const { data } = useFetch<
     {
       name: string
@@ -12,8 +19,16 @@ const FactorSelector: React.FC<{
     }[]
   >('/eda/column-categories')
 
-  const toggle = (name: string) => {
-    setSelected((prev) => {
+  const toggleNumerical = (name: string) => {
+    setSelectedNumerical((prev) => {
+      const next = new Set(prev)
+      next.has(name) ? next.delete(name) : next.add(name)
+      return next
+    })
+  }
+
+  const toggleCategorical = (name: string) => {
+    setSelectedCategorical((prev) => {
       const next = new Set(prev)
       next.has(name) ? next.delete(name) : next.add(name)
       return next
@@ -33,8 +48,8 @@ const FactorSelector: React.FC<{
             <ToggleBox
               key={col.name}
               name={col.name}
-              isSelected={selected.has(col.name)}
-              onToggle={() => toggle(col.name)}
+              isSelected={selectedNumerical.has(col.name)}
+              onToggle={() => toggleNumerical(col.name)}
             />
           ))}
         </ul>
@@ -48,8 +63,8 @@ const FactorSelector: React.FC<{
             <ToggleBox
               key={col.name}
               name={col.name}
-              isSelected={selected.has(col.name)}
-              onToggle={() => toggle(col.name)}
+              isSelected={selectedCategorical.has(col.name)}
+              onToggle={() => toggleCategorical(col.name)}
             />
           ))}
         </ul>

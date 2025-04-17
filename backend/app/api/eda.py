@@ -6,6 +6,12 @@ from app.df_store.static_df import get_static_df
 router = APIRouter()
 
 
+@router.get("/shape")
+def get_df_shape():
+    df = get_static_df()
+    return {"shape": df.shape}
+
+
 @router.get("/column-categories")
 def get_column_categories():
     df = get_static_df()
@@ -26,16 +32,14 @@ def get_column_categories():
     return simplified_types
 
 
-@router.get("/shape")
-def get_df_shape():
+@router.get("/describe/{column_name}")
+def get_column_description(column_name: str):
     df = get_static_df()
-    return {"shape": df.shape}
 
-
-@router.get("/describe")
-def get_descriptive_stats():
-    df = get_static_df()
-    return df.describe().to_dict()
+    if column_name not in df.columns:
+        return None  # Will become `null` in JSON
+    
+    return df[column_name].describe().to_dict()
 
 
 @router.get("/value-counts/{column_name}")
